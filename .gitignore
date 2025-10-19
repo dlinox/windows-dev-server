@@ -1,0 +1,28 @@
+# Logs generales
+*.log
+*.pid
+*.err.log
+*.out.log
+
+# Nginx
+/nginx/*
+
+# MySQL/MariaDB - Excluir todo
+/mysql/*
+
+# PHP - Excluir todo
+/php/*
+
+# Servicios - Excluir todo excepto winsw.exe en la raíz
+/services/*
+!/services/winsw.exe
+
+# Manager (ejecutables compilados)
+/manager/*.exe
+/manager/*.o
+/manager/bin/
+
+# Archivos temporales de Windows
+Thumbs.db
+desktop.ini
+*.tmp
