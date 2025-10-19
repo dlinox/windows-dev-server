@@ -192,11 +192,19 @@ bool addLocalHost(const string& domain) {
         return false;
     }
     
-    // Create the entry with newline
+    // Check if the domain already exists in hosts file
+    string checkCmd = "PowerShell -Command \"Get-Content '" + hostsPath + "' | Select-String '" + domain + "'\"";
+    string existingEntry = executeCommand(checkCmd);
+    if (!existingEntry.empty()) {
+        cout << COLOR_YELLOW << "Domain '" << domain << "' already exists in hosts file." << COLOR_RESET << endl;
+        return true;
+    }
+    
+    // Create the entry
     string entry = "127.0.0.1       " + domain;
     
-    // PowerShell command to add to hosts with better formatting
-    string psCmd = "PowerShell -Command \"$content = @(); $content += Get-Content '" + hostsPath + "'; $content += '" + entry + "'; Set-Content -Path '" + hostsPath + "' -Value $content -Encoding ASCII\"";
+    // PowerShell command to append to hosts file (not replace)
+    string psCmd = "PowerShell -Command \"Add-Content -Path '" + hostsPath + "' -Value '" + entry + "' -Encoding ASCII\"";
     
     int result = system(psCmd.c_str());
     
